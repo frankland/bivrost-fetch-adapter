@@ -1,0 +1,28 @@
+{
+  "name": "bivrost-fetch-adapter",
+  "version": "0.0.1",
+  "description": "bivrost XHR adapter using browser's native fetch function",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "./node_modules/.bin/babel -d ./ ./src",
+    "dev": "./node_modules/.bin/babel -d ./ ./src --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frankland/bivrost-fetch-adapter.git"
+  },
+  "author": "tuchk4 <valeriy.sorokobatko@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frankland/bivrost-fetch-adapter/issues"
+  },
+  "homepage": "https://github.com/frankland/bivrost-fetch-adapter#readme",
+  "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-cli": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-register": "^6.7.2"
+  }
+}
