@@ -1,4 +1,4 @@
-# Bivrost fetch adapter
+# Fetch adapter
 
 Adapter for browser's native fetch function. 
 
