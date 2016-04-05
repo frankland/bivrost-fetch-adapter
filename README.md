@@ -10,7 +10,7 @@ npm i --save bivrost-fetch-adapter
 
 ```js
 
-import fetchAdapter from 'bivrost-fetch-adapter`;
+import fetchAdapter from 'bivrost-fetch-adapter';
 
 const api = fetchAdapter();
 

@@ -24,8 +24,6 @@ export default function fetchAdapter(config = {}) {
     ...(config.interceptors || {})
   };
 
-  // https://davidwalsh.name/fetch
-  // https://developers.google.com/web/updates/2015/03/introduction-to-fetch?hl=en
   return function(url, requestOptions = {}) {
     const config = {
       ...options,
@@ -43,14 +41,6 @@ export default function fetchAdapter(config = {}) {
     if (requestOptions.verb != 'GET') {
       config.body = body;
     }
-
-    //config.headers = new Headers(requestOptions.headers || {});
-
-    //if (requestOptions.headers) {
-    //
-    //} else {
-    //  config.headers = new Headers({});
-    //}
 
     const request = new Request(url, {
       method: requestOptions.verb,
