@@ -40,7 +40,7 @@ Very useful with [bivrost data sources](https://github.com/frankland/bivrost);
 
 
 ```js
-import fetchAdapter from 'bivrost-fetch-adapter`;
+import fetchAdapter from 'bivrost-fetch-adapter';
 
 const api = fetchAdapter({
   // default options for each request with created adapter
@@ -64,7 +64,7 @@ Available options:
 ### Interceptors
 
 ```js
-import fetchAdapter from 'bivrost-fetch-adapter`;
+import fetchAdapter from 'bivrost-fetch-adapter';
 
 const api = fetchAdapter({
   interceptors: {
