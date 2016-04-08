@@ -30,19 +30,23 @@ export default function fetchAdapter(config = {}) {
       headers: new Headers(requestOptions.headers || {})
     };
 
-    let body = null;
-
-    if (requestOptions.query instanceof FormData) {
-      body = requestOptions.query;
-    } else {
-      body = JSON.stringify(requestOptions.query);
+    if (requestOptions.body) {
+      if (requestOptions.body instanceof FormData) {
+        config.body = requestOptions.body;
+      } else {
+        config.body = JSON.stringify(requestOptions.body);
+      }
     }
 
-    if (requestOptions.verb != 'GET') {
-      config.body = body;
+    let queryString = '';
+    if (requestOptions.query) {
+      const query = requestOptions.query;
+      queryString = Object.keys(query)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(query[k]))
+        .join('&');
     }
 
-    const request = new Request(url, {
+    const request = new Request(`${url}${queryString ? `?${queryString}` : ''}`, {
       method: requestOptions.verb,
       ...config
     });
