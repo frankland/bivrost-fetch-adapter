@@ -24,7 +24,27 @@ const options = {
   }
 };
 
-api('/users', options)
+api('/users', options) // /users?groupId=10
+  .then(json => {
+    // ...
+  })
+  .catch(response => {
+    // ...
+  });
+  
+  
+  
+const options = {
+  verb: 'POST',
+  body: {
+    name: 'kek'
+  },
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
+
+api('/user/1', options)
   .then(json => {
     // ...
   })
@@ -36,7 +56,7 @@ api('/users', options)
 Very useful with [bivrost data sources](https://github.com/frankland/bivrost);
 
 
-### Default options
+### Setup default options
 
 
 ```js
