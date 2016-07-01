@@ -1,12 +1,20 @@
-const DEFAULT_OPTIONS = {
-  responseType: 'json'
-};
+const DEFAULT_OPTIONS = {};
 
 const DEFAULT_INTERCEPTORS = {
-  request: () => {},
   response: response => {
+    const headers = response.headers;
+    const contentType = headers.get('content-type');
+
+    let action = null;
+
+    if (contentType.indexOf('application/json') != -1) {
+      action = () => response.json();
+    } else {
+      action = () => response.text();
+    }
+
     if (response.ok) {
-      return response.json();
+      return action();
     } else {
       return Promise.reject(response);
     }
@@ -14,20 +22,23 @@ const DEFAULT_INTERCEPTORS = {
 };
 
 export default function fetchAdapter(config = {}) {
-  let options = {
+  let requestAdapterOptions = {
     ...DEFAULT_OPTIONS,
-    ...(config.options || {})
+    ...config
   };
 
-  const interceptors = {
-    ...DEFAULT_INTERCEPTORS,
-    ...(config.interceptors || {})
-  };
-
-  return function(url, requestOptions = {}) {
+  return function(url, requestOptions = {}, applicationInterceptors = {}) {
     const config = {
-      ...options,
-      headers: new Headers(requestOptions.headers || {})
+      ...requestAdapterOptions,
+      headers: new Headers({
+        ...(requestAdapterOptions.headers || {}),
+        ...(requestOptions.headers || {})
+      })
+    };
+
+    const interceptors = {
+      ...DEFAULT_INTERCEPTORS,
+      ...applicationInterceptors
     };
 
     if (requestOptions.body) {
@@ -51,11 +62,15 @@ export default function fetchAdapter(config = {}) {
       ...config
     });
 
-    interceptors.request(request);
+    if (interceptors.request) {
+      interceptors.request(request);
+    }
 
     return fetch(request)
       .then(response => {
-        return interceptors.response(response);
+        return interceptors.response ? interceptors.response(response) : response;
+      }, error => {
+        return interceptors.error ? interceptors.error(error) : error;
       });
   }
 };
