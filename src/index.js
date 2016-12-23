@@ -1,6 +1,6 @@
-const DEFAULT_OPTIONS = {};
+const DEFAULT_ADAPTER_OPTIONS = {};
 
-const DEFAULT_INTERCEPTORS = {
+const DEFAULT_ADAPTER_INTERCEPTORS = {
   response: response => {
     const headers = response.headers;
     const contentType = headers.get('content-type');
@@ -21,24 +21,29 @@ const DEFAULT_INTERCEPTORS = {
   }
 };
 
-export default function fetchAdapter(config = {}) {
-  let requestAdapterOptions = {
-    ...DEFAULT_OPTIONS,
-    ...config
+export default function fetchAdapter({
+    interceptors = {},
+    ...options
+  } = {}) {
+
+  const adapterOptions = {
+    ...DEFAULT_ADAPTER_OPTIONS,
+    ...options
   };
 
-  return function(url, requestOptions = {}, applicationInterceptors = {}) {
+  const adapterIntinterceptors = {
+    ...DEFAULT_ADAPTER_INTERCEPTORS,
+    ...interceptors
+  };
+
+  return function(url, requestOptions = {}) {
     const config = {
-      ...requestAdapterOptions,
+      ...adapterOptions,
+      ...requestOptions,
       headers: new Headers({
-        ...(requestAdapterOptions.headers || {}),
+        ...(adapterOptions.headers || {}),
         ...(requestOptions.headers || {})
       })
-    };
-
-    const interceptors = {
-      ...DEFAULT_INTERCEPTORS,
-      ...applicationInterceptors
     };
 
     if (requestOptions.body) {
@@ -57,20 +62,24 @@ export default function fetchAdapter(config = {}) {
         .join('&');
     }
 
-    const request = new Request(`${url}${queryString ? `?${queryString}` : ''}`, {
-      method: requestOptions.verb,
+    let request = new Request(`${url}${queryString ? `?${queryString}` : ''}`, {
+      method: requestOptions.method,
       ...config
     });
 
-    if (interceptors.request) {
-      interceptors.request(request);
+    if (adapterIntinterceptors.request) {
+      request = adapterIntinterceptors.request(request);
     }
 
     return fetch(request)
       .then(response => {
-        return interceptors.response ? interceptors.response(response) : response;
+        return adapterIntinterceptors.response
+          ? adapterIntinterceptors.response(response)
+          : response;
       }, error => {
-        return interceptors.error ? interceptors.error(error) : error;
+        return adapterIntinterceptors.response
+          ? adapterIntinterceptors.response(error)
+          : error;
       });
   }
 };
