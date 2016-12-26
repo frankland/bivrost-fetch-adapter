@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/frankland/bivrost-fetch-adapter.git"
+    "url": "git+https://github.com/tuchk4/bivrost-fetch-adapter.git"
   },
   "author": "tuchk4 <valeriy.sorokobatko@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/frankland/bivrost-fetch-adapter/issues"
+    "url": "https://github.com/tuchk4/bivrost-fetch-adapter/issues"
   },
-  "homepage": "https://github.com/frankland/bivrost-fetch-adapter#readme",
+  "homepage": "https://github.com/tuchk4/bivrost-fetch-adapter#readme",
   "devDependencies": {
     "babel": "^6.3.26",
     "babel-cli": "^6.4.0",
