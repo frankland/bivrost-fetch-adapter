@@ -80,7 +80,7 @@ export default function fetchAdapter({
         } else {
           return adapterIntinterceptors.error
             ? adapterIntinterceptors.error(response)
-            : Promise.reject(error);
+            : Promise.reject(response);
         }
       }, error => {
         return adapterIntinterceptors.error
