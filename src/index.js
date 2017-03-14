@@ -7,7 +7,7 @@ const DEFAULT_ADAPTER_INTERCEPTORS = {
 
     let action = null;
 
-    if (contentType.indexOf('application/json') != -1) {
+    if (contentType && contentType.indexOf('application/json') != -1) {
       action = () => response.json();
     } else {
       action = () => response.text();
